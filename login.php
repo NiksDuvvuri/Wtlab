@@ -4,19 +4,22 @@ require('db.inc.php');
 if(isset($_POST['username']) && isset($_POST['password'])){
   $uname=mysqli_real_escape_string($con,$_POST['username']);
   $password=mysqli_real_escape_string($con,$_POST['password']);
-  $res=mysqli_query($con,"select * from employee where username='$uname' and password='$password'");
+  $res=mysqli_query($con,"select * from login where username='$uname' and password='$password'");
   //  $_SESSION['empid'] = $emp_id;
   $count=mysqli_num_rows($res);
   if($count>0){
     $row=mysqli_fetch_assoc($res);
+    // $flag = 0;
     // $_SESSION['ROLE']=$row['role'];
     //   $_SESSION['empid'] = $_POST['emp_id'];
     // $_SESSION['USER_ID']=$row['id'];
     // $_SESSION['USER_NAME']=$row['name'];
+    $msg = "Successful login";
     header('location:index.html');
     die();
   }else{
-    $msg2="Please enter correct login details";
+    $flag = 1;
+    // $msg="Please enter correct login details";
     echo "Incorrect login details";
   }
 
@@ -43,7 +46,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
   <a href="about.html">About</a>
   <a href="help.html">Help&Support</a>
   <a href="feed.html">Feedback</a>
-  <a href="login.html">Login</a>
+  <a href="login.php">Login</a>
 </div>
 
 <form method="post">
@@ -62,6 +65,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
       <label>
         <input type="checkbox" checked="checked" name="remember" /> Remember me
       </label>
+      <!-- <div class="result_msg"> <p style="color: red;"><?php if($flag == 1){echo $msg; $msg = "";} ?></p> </div> -->
     </div>
   
     <div class="container" style="background-color:#f1f1f1">
